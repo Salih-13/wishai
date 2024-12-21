@@ -22,6 +22,10 @@
       "@/*": ["./src/*"]
     }
   },
+<<<<<<< HEAD
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/supabase/supabase.js"],
+=======
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/supabase/supabase.js", "src/app/card/page.jsx", "src/app/newcard/page.jsx", "src/app/home/page.jsx", "src/app/cards/cardlist.jsx"],
+>>>>>>> d87702de93597670a1b96022a9c3d1a4833daebd
   "exclude": ["node_modules"]
 }
