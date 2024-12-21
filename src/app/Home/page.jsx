@@ -1,7 +1,7 @@
 "use client";
 import { supabase } from "@/app/supabase/supabase";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai"; // For delete icon
 import { FiPlus } from "react-icons/fi"; // For the + icon (Image Upload)
 import { RiAiGenerate2 } from "react-icons/ri";
@@ -10,6 +10,27 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]); // New state to hold image URLs
+
+  useEffect(() => {
+    // Listen for changes in authentication state (login/logout)
+    const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUserId(session.user.id); // Set user ID when the user is logged in
+        console.log("User ID:", session.user.id);
+      } else {
+        setUserId(null); // Clear the user ID when the user logs out
+      }
+    });
+
+    // Cleanup function to unsubscribe on component unmount
+    return () => {
+      if (typeof unsubscribe === "function") {
+        unsubscribe(); // Safely invoke the cleanup function
+      }
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     setPrompt(e.target.value);
@@ -51,22 +72,67 @@ export default function Home() {
     }
 
     setLoading(true);
+    const uploadedImageUrls = [];
 
     try {
       for (const image of images) {
         console.log("Uploading image:", image);
 
+        const uniqueFileName = `${userId}/${Date.now()}_${image.name}`; // Generate a unique name
         const { data, error } = await supabase.storage
           .from("images")
-          .upload(`user/${image.name}`, image);
+          .upload(uniqueFileName, image);
 
         if (error) {
           console.error("Upload error:", error);
           alert(`Failed to upload ${image.name}: ${error.message}`);
-          return; // Exit if one upload fails
+          continue; // Skip this image and continue with the rest
         }
 
+        // Get the public URL for the uploaded image
+        const { data: urlData, error: urlError } = supabase.storage
+          .from("images")
+          .getPublicUrl(data.path);
+
+        if (urlError) {
+          console.error("Public URL error:", urlError);
+          alert(`Failed to retrieve URL for ${image.name}`);
+          continue; // Skip this image and continue with the rest
+        }
+
+        // Add the URL to the array
+        uploadedImageUrls.push(urlData.publicUrl);
+
         console.log(`Image uploaded successfully: ${data.path}`);
+      }
+
+      // Ensure at least one image was successfully uploaded
+      if (uploadedImageUrls.length === 0) {
+        alert("No images were successfully uploaded. Please try again.");
+        return;
+      }
+
+      // Log the uploaded image URLs
+      console.log("Uploaded Image URLs:", uploadedImageUrls);
+
+      // Now, update the user table with the image URLs
+      if (userId) {
+        const { error } = await supabase.from("users").insert({
+          data1: prompt,
+          uid: userId,
+          img: uploadedImageUrls, // Ensure this is an array
+        });
+
+        if (error) {
+          console.error("Error updating prompt:", error);
+          alert("Failed to save prompt. Please try again.");
+          return;
+        }
+
+        console.log("Prompt saved successfully to the database.");
+      } else {
+        alert("User is not logged in.");
+        return;
       }
 
       alert("Images uploaded successfully and card generated!");
