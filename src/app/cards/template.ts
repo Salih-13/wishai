@@ -4,19 +4,22 @@ type CardTemplate = {
     tags: string[];
   };
   
-  import { BirthdayCard1, BirthdayCard2 } from './birthday';
-  import { ValentinesCard1, ValentinesCard2 } from './valentines';
-  import { AnniversaryCard1, AnniversaryCard2 } from './anniversary';
+  import bdaycard1 from '../cards/birthday/bdaycard1';
+  import bdaycard2 from '../cards/birthday/bdaycard2';
+  import bdaycard1 from '../cards/birthday/bdaycard1';
+  import bdaycard1 from '../cards/birthday/bdaycard1';
+  import bdaycard1 from '../cards/birthday/bdaycard1';
+  import bdaycard1 from '../cards/birthday/bdaycard1';
   
   export const cardTemplates: CardTemplate[] = [
     {
       id: 'birthday-card-1',
-      component: BirthdayCard1,
+      component: bdaycard1,
       tags: ['birthday'],
     },
     {
       id: 'birthday-card-2',
-      component: BirthdayCard2,
+      component: bdaycard2,
       tags: ['birthday'],
     },
     {
