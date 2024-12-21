@@ -30,7 +30,7 @@ export default function Home() {
 
        
         <button
-        onClick={()=>router.push("/Home")}
+        onClick={()=>router.push("/login")}
           className="px-8 py-3 bg-white text-purple-700 text-lg font-semibold rounded-lg shadow-md hover:bg-purple-800 hover:text-white transition duration-300"
          
           >
