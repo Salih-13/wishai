@@ -21,25 +21,54 @@ export default function Home() {
   const [result, setResult] = useState("");
   const [occasion, setOccasion] = useState("");
   const [relation, setRelation] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]); // New state to hold image URLs
 
-  const handleInputChange = (e) => setPrompt(e.target.value);
+  useEffect(() => {
+    // Listen for changes in authentication state (login/logout)
+    const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUserId(session.user.id); // Set user ID when the user is logged in
+        console.log("User ID:", session.user.id);
+      } else {
+        setUserId(null); // Clear the user ID when the user logs out
+      }
+    });
+
+    // Cleanup function to unsubscribe on component unmount
+    return () => {
+      if (typeof unsubscribe === "function") {
+        unsubscribe(); // Safely invoke the cleanup function
+      }
+    };
+  }, []);
+
+  const handleInputChange = (e) => {
+    setPrompt(e.target.value);
+  };
 
   const handleImageUpload = (e) => {
     const files = e.target.files;
-    if (files.length + images.length <= 5) {
-      const newImages = [...images];
-      for (let i = 0; i < files.length; i++) {
-        newImages.push(URL.createObjectURL(files[i]));
-      }
-      setImages(newImages);
-    } else {
+
+    if (files.length + images.length > 5) {
       alert("You can upload a maximum of 5 images.");
+      return;
     }
+
+    const validFiles = Array.from(files).filter((file) =>
+      ["image/jpeg", "image/png", "image/webp"].includes(file.type)
+    );
+
+    if (validFiles.length === 0) {
+      alert("Please upload valid image files (JPEG, PNG, WEBP).");
+      return;
+    }
+
+    setImages((prev) => [...prev, ...validFiles]);
   };
 
   const handleDeleteImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const generatePrompt = (userPrompt, occasion, relation) => `
@@ -71,6 +100,8 @@ export default function Home() {
 
     setIsLoading(true);
 
+    const uploadedImageUrls = [];
+
     try {
       const modifiedPrompt = generatePrompt(prompt, occasion, relation);
       const result = await model.generateContent(modifiedPrompt);
@@ -101,6 +132,70 @@ export default function Home() {
           "The generated text does not have the expected 4 paragraphs. Please try again."
         );
       }
+
+      //Swalih code - update backend here just replace the variables that has data
+
+      for (const image of images) {
+        console.log("Uploading image:", image);
+
+        const uniqueFileName = `${userId}/${Date.now()}_${image.name}`; // Generate a unique name
+        const { data, error } = await supabase.storage
+          .from("images")
+          .upload(uniqueFileName, image);
+
+        if (error) {
+          console.error("Upload error:", error);
+          alert(`Failed to upload ${image.name}: ${error.message}`);
+          continue; // Skip this image and continue with the rest
+        }
+
+        // Get the public URL for the uploaded image
+        const { data: urlData, error: urlError } = supabase.storage
+          .from("images")
+          .getPublicUrl(data.path);
+
+        if (urlError) {
+          console.error("Public URL error:", urlError);
+          alert(`Failed to retrieve URL for ${image.name}`);
+          continue; // Skip this image and continue with the rest
+        }
+
+        // Add the URL to the array
+        uploadedImageUrls.push(urlData.publicUrl);
+
+        console.log(`Image uploaded successfully: ${data.path}`);
+      }
+
+      // Ensure at least one image was successfully uploaded
+      if (uploadedImageUrls.length === 0) {
+        alert("No images were successfully uploaded. Please try again.");
+        return;
+      }
+
+      // Log the uploaded image URLs
+      console.log("Uploaded Image URLs:", uploadedImageUrls);
+
+      // Now, update the user table with the image URLs
+      if (userId) {
+        const { error } = await supabase.from("users").insert({
+          data1: prompt,
+          uid: userId,
+          img: uploadedImageUrls, // Ensure this is an array
+        });
+
+        if (error) {
+          console.error("Error updating prompt:", error);
+          alert("Failed to save prompt. Please try again.");
+          return;
+        }
+
+        console.log("Prompt saved successfully to the database.");
+      } else {
+        alert("User is not logged in.");
+        return;
+      }
+
+      alert("Images uploaded successfully and card generated!");
     } catch (error) {
       console.error("Error calling Gemini API:", error);
       alert("Failed to generate content. Please try again.");
