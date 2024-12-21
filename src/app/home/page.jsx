@@ -64,25 +64,45 @@ export default function Home() {
 `;
 
   const handleGenerateCard = async () => {
-    if (!prompt || !occasion || !relation) {
-      alert("Please fill all fields before generating.");
-      return;
+  if (!prompt || !occasion || !relation) {
+    alert("Please fill all fields before generating.");
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    const modifiedPrompt = generatePrompt(prompt, occasion, relation);
+    const result = await model.generateContent(modifiedPrompt);
+    const generatedText = result.response.text();
+
+    // Split the result by '**' to separate the paragraphs
+    const paragraphs = generatedText.split("**").map(para => para.trim()).filter(para => para !== "");
+
+    // Ensure we have the correct number of paragraphs (4 paragraphs as per the prompt)
+    if (paragraphs.length === 4) {
+      const para1 = paragraphs[0];
+      const para2 = paragraphs[1];
+      const para3 = paragraphs[2];
+      const para4 = paragraphs[3];
+
+      // Store the paragraphs in the state or use them as required
+      console.log("Paragraph 1:", para1);
+      console.log("Paragraph 2:", para2);
+      console.log("Paragraph 3:", para3);
+      console.log("Paragraph 4:", para4);
+
+      setResult(generatedText);  // You can still use the full result as needed
+    } else {
+      alert("The generated text does not have the expected 4 paragraphs. Please try again.");
     }
-
-    setIsLoading(true);
-
-    try {
-      const modifiedPrompt = generatePrompt(prompt, occasion, relation);
-      const result = await model.generateContent(modifiedPrompt);
-      setResult(result.response.text());
-    } catch (error) {
-      console.error("Error calling Gemini API:", error);
-      alert("Failed to generate content. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  } catch (error) {
+    console.error("Error calling Gemini API:", error);
+    alert("Failed to generate content. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
+};
   const getCardTemplate = (occasion, result, images) => {
     switch (occasion) {
       case "Birthday":

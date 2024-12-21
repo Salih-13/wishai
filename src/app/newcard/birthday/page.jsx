@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import style from "../newcard/page.css";
+import style from "./page.css";
 
 const Page = () => {
   const bookRef = useRef(null);
@@ -32,8 +32,7 @@ const Page = () => {
             <p>2024. Second edition</p>
           </div>
           <div className="back">
-            <h2>Responsive</h2>
-            <p>Fully responsive CSS flip book, thanks to the <code>cqmin</code> unit.</p>
+          <img src="https://picsum.photos/id/1015/300/200" alt="Responsive Design" className="mb-4 rounded shadow-lg" />
           </div>
         </div>
 

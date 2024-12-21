@@ -28,7 +28,7 @@ body {
   transform-style: preserve-3d;
   margin: auto;
   /* width: 40cqmin; */
-  /*1* let pointer event go trough pages of lower Z than .book */
+  /* let pointer event go trough pages of lower Z than .book */
   pointer-events: none;
   transform-style: preserve-3d;
   transition: translate 1s;
@@ -48,7 +48,7 @@ body {
   display: flex;
   width: 100%;
   font-size: 2cqmin;
-  /*1* allow pointer events on pages */
+  /* allow pointer events on pages */
   pointer-events: all;
   user-select: none;
   transform-style: preserve-3d;
@@ -140,6 +140,6 @@ body {
 
 .cover {
   background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
-    hsl(231, 32%, 29%) url("") 50% / cover;
+    hsl(231, 32%, 29%) url("../../../../public/cake.webp") 50% / cover;
   color: hsl(200 30% 98%);
 }
