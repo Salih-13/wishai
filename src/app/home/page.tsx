@@ -1,54 +1,85 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { FiPlus } from "react-icons/fi"; // For the + icon (Image Upload)
+import { FiPlus } from "react-icons/fi";
 import { RiAiGenerate2 } from "react-icons/ri";
-import { AiOutlineDelete } from "react-icons/ai"; // For delete icon
+import { AiOutlineDelete } from "react-icons/ai";
+//import { cardTemplates } from "./cards/templates"; // Import templates
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [renderedTemplate, setRenderedTemplate] = useState<React.ReactNode | null>(null);
 
-  const handleInputChange = (e) => {
+  // Handle prompt input
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
   };
 
-  const handleImageUpload = (e) => {
+  // Handle image uploads
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files.length + images.length <= 5) {
-      // Allow uploading only if the total number of images is 5 or less
-      const newImages = [...images];
-      for (let i = 0; i < files.length; i++) {
-        newImages.push(URL.createObjectURL(files[i])); // Show image preview
-      }
-      setImages(newImages);
+    if (files && files.length + images.length <= 5) {
+      const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
+      setImages((prev) => [...prev, ...newImages]);
     } else {
       alert("You can upload a maximum of 5 images.");
     }
   };
 
-  const handleDeleteImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
+  // Handle image deletion
+  const handleDeleteImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Render templates based on tag
+  const fetchTemplatesByTag = (tag: string) => {
+    const filteredTemplates = cardTemplates.filter((template) =>
+      template.tags.includes(tag)
+    );
+
+    if (filteredTemplates.length > 0) {
+      const SelectedComponent = filteredTemplates[0].component;
+      setRenderedTemplate(<SelectedComponent />);
+    } else {
+      setRenderedTemplate(<div>No templates found for this occasion.</div>);
+    }
+  };
+
+  // Handle Generate Button
   const handleGenerateCard = () => {
-    // Logic to generate the card (placeholder action for now)
-    alert(`Generating card for: ${prompt}`);
-    // Call the AI or image generation API here
+    if (!prompt.trim()) {
+      alert("Please enter a prompt.");
+      return;
+    }
+
+    // Example simple logic to determine tags based on prompt
+    if (prompt.toLowerCase().includes("birthday")) {
+      setSelectedTag("birthday");
+      fetchTemplatesByTag("birthday");
+    } else if (prompt.toLowerCase().includes("valentine")) {
+      setSelectedTag("valentines");
+      fetchTemplatesByTag("valentines");
+    } else if (prompt.toLowerCase().includes("anniversary")) {
+      setSelectedTag("anniversary");
+      fetchTemplatesByTag("anniversary");
+    } else {
+      alert("Unable to determine the occasion. Please refine your prompt.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 flex flex-col items-center justify-center p-8">
       <div className="w-full max-w-lg bg-white bg-opacity-90 rounded-lg p-8 shadow-xl">
         <h1 className="text-3xl font-extrabold text-center text-purple-700 mb-6">
-          WishCraftAI 
+          WishCraftAI
         </h1>
         <p className="text-xl text-center text-gray-700 mb-8">
-          Enter your special occasion prompt, upload upto 5 images, and generate a custom AI-generated card.
+          Enter your special occasion prompt, upload up to 5 images, and generate a custom AI-generated card.
         </p>
 
-        {/* Text Input for Prompt */}
+        {/* Prompt Input */}
         <div className="relative mb-6">
           <input
             type="text"
@@ -57,7 +88,6 @@ export default function Home() {
             placeholder="Enter a special occasion (e.g., Birthday, Valentine's Day)..."
             className="w-full p-3 pr-12 rounded-lg text-gray-800 border-2 border-gray-300 focus:outline-none"
           />
-          {/* Plus Icon positioned at the top-right corner of the input */}
           <label
             htmlFor="image-upload"
             className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-purple-600 hover:text-purple-700"
@@ -110,6 +140,16 @@ export default function Home() {
             Generate Card
           </button>
         </div>
+
+        {/* Rendered Card */}
+        {renderedTemplate && (
+          <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Your Generated Card
+            </h2>
+            {renderedTemplate}
+          </div>
+        )}
       </div>
     </div>
   );
