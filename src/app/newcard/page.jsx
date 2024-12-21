@@ -27,8 +27,8 @@ const Page = () => {
     <div className="flex items-center justify-center h-screen w-screen ">
       <div className="book" ref={bookRef}>
         <div className="page">
-          <div className="front cover">
-            <h1>FlipBook</h1>
+          <div className="front cover flex items-center justify-center text-center">
+            <h1 className="text-4xl font-bold">FlipBook</h1>
             <p>2024. Second edition</p>
           </div>
           <div className="back">
