@@ -25,7 +25,7 @@ export default function Signup() {
       if (error) throw error;
       else{
         setMessage("Signup successful! Please check your email to verify your account.");
-        router.push("/Home");
+        router.push("/landing");
       }
     } catch (error) {
       console.log("Error in signup")
@@ -35,7 +35,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 flex items-center justify-center text-black">
       <div className="w-full max-w-md bg-white bg-opacity-90 rounded-lg p-8 shadow-xl">
         <h2 className="text-2xl font-bold text-center text-purple-700 mb-6">Sign Up</h2>
         <div className="mb-4">
@@ -45,7 +45,7 @@ export default function Signup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
           />
         </div>
         <div className="mb-6">

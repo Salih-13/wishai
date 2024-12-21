@@ -1,6 +1,7 @@
 "use client";
+import { supabase } from "@/app/supabase/supabase";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { RiAiGenerate2 } from "react-icons/ri";
@@ -101,6 +102,10 @@ export default function Home() {
     setIsLoading(true);
 
     const uploadedImageUrls = [];
+    let para1;
+    let para2;
+    let para3;
+    let para4;
 
     try {
       const modifiedPrompt = generatePrompt(prompt, occasion, relation);
@@ -115,10 +120,10 @@ export default function Home() {
 
       // Ensure we have the correct number of paragraphs (4 paragraphs as per the prompt)
       if (paragraphs.length === 4) {
-        const para1 = paragraphs[0];
-        const para2 = paragraphs[1];
-        const para3 = paragraphs[2];
-        const para4 = paragraphs[3];
+        para1 = paragraphs[0];
+        para2 = paragraphs[1];
+        para3 = paragraphs[2];
+        para4 = paragraphs[3];
 
         // Store the paragraphs in the state or use them as required
         console.log("Paragraph 1:", para1);
@@ -174,11 +179,15 @@ export default function Home() {
 
       // Log the uploaded image URLs
       console.log("Uploaded Image URLs:", uploadedImageUrls);
+      setImageUrls(uploadedImageUrls);
 
       // Now, update the user table with the image URLs
       if (userId) {
         const { error } = await supabase.from("users").insert({
-          data1: prompt,
+          data1: para1,
+          data2: para2,
+          data3: para3,
+          data4: para4,
           uid: userId,
           img: uploadedImageUrls, // Ensure this is an array
         });
@@ -324,7 +333,7 @@ export default function Home() {
               {images.map((image, index) => (
                 <div key={index} className="relative">
                   <Image
-                    src={image}
+                    src={URL.createObjectURL(image)}
                     alt={`Uploaded Image ${index + 1}`}
                     width={100}
                     height={100}
