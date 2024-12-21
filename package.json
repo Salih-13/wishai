@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
+    "@supabase/supabase-js": "^2.47.10",
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

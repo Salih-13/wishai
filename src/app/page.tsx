@@ -1,10 +1,13 @@
+"use client"
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { CiGlobe } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa6";
 import { IoDocumentText } from "react-icons/io5";
-import { CiGlobe } from "react-icons/ci";
 
 export default function Home() {
+
+  const router = useRouter();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gradient-to-r from-purple-500 via-pink-500 to-red-500">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start text-white">
@@ -25,13 +28,15 @@ export default function Home() {
           Valentine's Day, and more!
         </p>
 
-        <Link href="/home">
+       
         <button
+        onClick={()=>router.push("/Home")}
           className="px-8 py-3 bg-white text-purple-700 text-lg font-semibold rounded-lg shadow-md hover:bg-purple-800 hover:text-white transition duration-300"
+         
           >
           Get Started
         </button>
-        </Link>
+        
       </main>
 
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center text-white">
