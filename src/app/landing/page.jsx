@@ -50,13 +50,13 @@ export default function Home() {
 
   The message should be a complete and self-contained wish, divided into four paragraphs. Each paragraph should focus on the following:
 
-  1. *The first paragraph should focus on why the person is important to the one who is wishing, highlighting the special connection and bond. It should express how much they mean to the sender and their impact on the sender's life.*
+  1. The first paragraph should focus on why the person is important to the one who is wishing, highlighting the special connection and bond. It should express how much they mean to the sender and their impact on the sender's life.
 
-  2. *The second paragraph should reflect on how this day or occasion feels, emphasizing the significance of the event. It should evoke the emotions and joy that the occasion brings, making the person feel valued and celebrated.*
+  2. The second paragraph should reflect on how this day or occasion feels, emphasizing the significance of the event. It should evoke the emotions and joy that the occasion brings, making the person feel valued and celebrated.
 
-  3. *The third paragraph should combine these thoughts, connecting the importance of the person and the significance of the day. It should highlight how these two aspects come together to make the moment memorable and meaningful.*
+  3. The third paragraph should combine these thoughts, connecting the importance of the person and the significance of the day. It should highlight how these two aspects come together to make the moment memorable and meaningful.
 
-  4. *The fourth paragraph should express well wishes for the future. It should end with an optimistic tone, wishing the person continued success, happiness, or joy in life, while reaffirming the sender's feelings and love.*
+  4. The fourth paragraph should express well wishes for the future. It should end with an optimistic tone, wishing the person continued success, happiness, or joy in life, while reaffirming the sender's feelings and love.
 
   User's additional prompt: "${userPrompt}"
 
