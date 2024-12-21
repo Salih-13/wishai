@@ -45,7 +45,7 @@ export default function Home() {
           WishCraftAI 
         </h1>
         <p className="text-xl text-center text-gray-700 mb-8">
-          Enter your special occasion prompt, upload up to 5 images, and generate a custom AI-generated card.
+          Enter your special occasion prompt, upload upto 5 images, and generate a custom AI-generated card.
         </p>
 
         {/* Text Input for Prompt */}
