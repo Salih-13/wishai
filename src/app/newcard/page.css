@@ -140,6 +140,6 @@ body {
 
 .cover {
   background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
-    hsl(231, 32%, 29%) url("../../../../public/cake.webp") 50% / cover;
+    hsl(231, 32%, 29%) url("../../../public/cake.webp") 50% / cover;
   color: hsl(200 30% 98%);
 }
