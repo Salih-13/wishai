@@ -9,6 +9,7 @@ import { RiAiGenerate2 } from "react-icons/ri";
 // Importing Card Components
 import AnniversaryCard from "../components/cards/AnniversaryCard";
 import BirthdayCard from "../components/cards/BirthdayCard";
+import { useRouter } from "next/navigation";
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -25,12 +26,16 @@ export default function Home() {
   const [userId, setUserId] = useState(null);
   const [imageUrls, setImageUrls] = useState([]); // New state to hold image URLs
 
+  const router = useRouter();
+  
+
   useEffect(() => {
     // Listen for changes in authentication state (login/logout)
     const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
         setUserId(session.user.id); // Set user ID when the user is logged in
         console.log("User ID:", session.user.id);
+        
       } else {
         setUserId(null); // Clear the user ID when the user logs out
       }
@@ -205,6 +210,7 @@ export default function Home() {
       }
 
       alert("Images uploaded successfully and card generated!");
+      router.push("/card");
     } catch (error) {
       console.error("Error calling Gemini API:", error);
       alert("Failed to generate content. Please try again.");
