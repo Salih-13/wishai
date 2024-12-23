@@ -12,7 +12,7 @@ Welcome to the **AI Wish Card Generator**! This project empowers users to create
 - 🔹 Upload up to 5 custom images to personalize your card.
 - 🔹 Preview the generated content directly or view it on a separate card page.
 - 🔹 Intuitive and responsive design built with Next.js and Tailwind CSS.
-- 🔹 Supports smooth navigation using the Next.js `useRouter` hook.
+- 🔹 Supports smooth navigation.
 
 ---
 
