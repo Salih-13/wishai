@@ -41,7 +41,7 @@ const Page = () => {
           // Fetch user data from the 'users' table in Supabase
           const { data, error } = await supabase
   .from("users")
-  .select("data1, data2, data3, data4, img") // Select all necessary fields
+  .select("data1, data2, data3, data4, occ, img") // Select all necessary fields
   .eq("uid", userId) // Ensure the userId matches
   .order('created_at', { ascending: false }) // Sort by created_at in descending order to get the latest row
   .limit(1) // Fetch only one row
@@ -88,19 +88,12 @@ const Page = () => {
   return (
     <div className="flex items-center justify-center h-screen w-screen ">
       <div className="book" ref={bookRef}>
+       
         <div className="page">
           <div className="front cover flex items-center justify-center text-center">
-            <h1 className="text-4xl font-bold">Happy Birthday!!</h1>
-            <p>Make you special days more special</p>
-          </div>
-          <div className="back">
             
-          </div>
-        </div>
-
-        <div className="page">
-          <div className="front">
-            <p>{userData?.data1}</p>
+            <h1 className="text-4xl font-bold">Happy {userData?.occ}!!</h1>
+            <p>Make you special days more special</p>
           </div>
           <div className="back">
           {userData?.img && userData.img[0] && (
@@ -117,11 +110,28 @@ const Page = () => {
 
         <div className="page">
           <div className="front">
+            <p>{userData?.data1}</p>
+          </div>
+          <div className="back">
+         
+          </div>
+        </div>
+
+        <div className="page">
+          <div className="front">
            
             <p>{userData?.data2}</p>
           </div>
           <div className="back">
-            <p></p>
+          {userData?.img && userData.img[1] && (
+              <Image
+                src={userData.img[1]} // Accessing the first image URL in the array
+                alt="Uploaded Image"
+                width={50}
+                height={50}
+                className="rounded-lg"
+              />
+            )}
           </div>
         </div>
 
@@ -131,7 +141,15 @@ const Page = () => {
             <p>{userData?.data3}</p>
           </div>
           <div className="back">
-            <p></p>
+          {userData?.img && userData.img[2] && (
+              <Image
+                src={userData.img[2]} // Accessing the first image URL in the array
+                alt="Uploaded Image"
+                width={50}
+                height={50}
+                className="rounded-lg"
+              />
+            )}
           </div>
         </div>
 
@@ -146,10 +164,10 @@ const Page = () => {
 
         <div className="page">
           <div className="front">
-            <img src="https://picsum.photos/id/1073/600/600" alt="Img 2"></img>
+        
           </div>
           <div className="back cover">
-            <h3>That's all, folks</h3>
+            <h3></h3>
             <p></p>
           </div>
         </div>

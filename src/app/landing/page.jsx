@@ -78,7 +78,7 @@ export default function Home() {
   };
 
   const generatePrompt = (userPrompt, occasion, relation) => `
-  Generate a thoughtful and heartfelt special occasion card message add as much as emojis tmake the text feel more cheerful. 
+  Generate a thoughtful and heartfelt special occasion card message add as much as emojis tmake the text feel more cheerful.Even if name isnt provideddont as to upload name. 
 
   Occasion: ${occasion}
   Relation: ${relation}
@@ -193,6 +193,7 @@ export default function Home() {
           data2: para2,
           data3: para3,
           data4: para4,
+          occ:occasion,
           uid: userId,
           img: uploadedImageUrls, // Ensure this is an array
         });
@@ -223,13 +224,13 @@ export default function Home() {
       case "Birthday":
         return <BirthdayCard message={result} images={images} />;
       case "Anniversary":
-        return <AnniversaryCard message={result} images={images} />;
+        return <BirthdayCard message={result} images={images} />;
       case "Graduation":
-        return <GraduationCard message={result} images={images} />;
+        return <BirthdayCard message={result} images={images} />;
       case "Wedding":
-        return <WeddingCard message={result} images={images} />;
+        return <BirthdayCard message={result} images={images} />;
       case "Other":
-        return <OtherCard message={result} images={images} />;
+        return <BirthdayCard message={result} images={images} />;
       default:
         return null;
     }
