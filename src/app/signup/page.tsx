@@ -1,20 +1,17 @@
-// pages/signup.jsx
 "use client";
 
 import { supabase } from "@/app/supabase/supabase";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Signup() {
+  const router = useRouter(); // Move useRouter to the top level
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-
   const handleSignup = async () => {
-
-      const router = useRouter();
     setLoading(true);
     setMessage("");
     try {
@@ -23,12 +20,13 @@ export default function Signup() {
         password,
       });
       if (error) throw error;
-      else{
+      else {
         setMessage("Signup successful! Please check your email to verify your account.");
-        router.push("/landing");
+        router.push("/landing"); // Use router here
       }
     } catch (error) {
-      console.log("Error in signup")
+      console.log("Error in signup");
+      setMessage("Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
