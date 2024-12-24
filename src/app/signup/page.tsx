@@ -3,29 +3,38 @@
 import { supabase } from "@/app/supabase/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Signup() {
-  const router = useRouter(); // Move useRouter to the top level
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleSignup = async () => {
     setLoading(true);
     setMessage("");
+
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signUp({
         email,
         password,
       });
       if (error) throw error;
-      else {
-        setMessage("Signup successful! Please check your email to verify your account.");
-        router.push("/landing"); // Use router here
-      }
+
+      alert("Signup successful! Please check your email to verify your account.");
+      router.push("/login");
     } catch (error) {
-      console.log("Error in signup");
+      console.log("Error in signup", error);
       setMessage("Signup failed. Please try again.");
     } finally {
       setLoading(false);
@@ -46,15 +55,45 @@ export default function Signup() {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
+          <div className="relative">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer"
+              onMouseDown={() => setPasswordVisible(true)}
+              onMouseUp={() => setPasswordVisible(false)}
+              onMouseLeave={() => setPasswordVisible(false)} // Ensures password is hidden if mouse leaves the button
+            >
+              {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+            </span>
+          </div>
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
+          <div className="relative">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Re-enter your password"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer"
+              onMouseDown={() => setPasswordVisible(true)}
+              onMouseUp={() => setPasswordVisible(false)}
+              onMouseLeave={() => setPasswordVisible(false)} // Ensures password is hidden if mouse leaves the button
+            >
+              {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+            </span>
+          </div>
         </div>
         <button
           onClick={handleSignup}
