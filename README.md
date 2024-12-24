@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Wish Card Generator ✨❤️
 
-## Getting Started
+Welcome to the **AI Wish Card Generator**! This project empowers users to create personalized wish cards for special occasions using AI-generated text and custom images. The generated cards can be viewed and shared seamlessly.
 
-First, run the development server:
+**Live Demo**: [AI Wish Card Generator](https://wishai2.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🔹 Generate AI-powered wish card messages based on custom prompts.
+- 🔹 Upload up to 5 custom images to personalize your card.
+- 🔹 Preview the generated content directly or view it on a separate card page.
+- 🔹 Intuitive and responsive design built with Next.js and Tailwind CSS.
+- 🔹 Supports smooth navigation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 💡 How It Works
 
-To learn more about Next.js, take a look at the following resources:
+1. 📝 **Enter a Prompt**: Input a special occasion or theme (e.g., Birthday, Anniversary).
+2. 🖼 **Upload Images**: Select up to 5 images to enhance your card.
+3. ⚙️ **Generate AI Content**: Click "Generate Card" to let the AI craft a custom message.
+4. 🕌 **View the Card**: The card is displayed on a dedicated page with the generated text and uploaded images.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Technologies Used
 
-## Deploy on Vercel
+- **Frontend**: Next.js (React-based framework), Tailwind CSS.
+- **AI Integration**: Google Generative AI (Gemini API).
+- **Hosting**: Vercel for fast and scalable deployment.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+
+
+## 🌟 Acknowledgements
+
+- [Google Generative AI (Gemini)](https://ai.google/tools/) for powering the AI content generation.
+- [Tailwind CSS](https://tailwindcss.com/) for the modern UI design.
+- [Vercel](https://vercel.com/) for hosting the live demo.
+
+---
+
+## ❤️ Support
+If you encounter any issues or have suggestions, feel free to [open an issue](https://github.com/yourusername/ai-wish-card-generator/issues) or contact me.
+
+---
+
+## 🚀 Future Plans
+
+- Add support for multilingual prompts.
+- Include more design templates for cards.
+- Enable sharing directly on social media platforms.
+
+---
+
+Thank you for checking out the **AI Wish Card Generator**! 🎉
+
